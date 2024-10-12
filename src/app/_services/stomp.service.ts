@@ -14,9 +14,7 @@ export class StompService {
         this.socket = new SockJS('http://localhost:8080/stomp-endpoint');
         this.stompClient = Stomp.over(this.socket);
         this.stompClient.debug = null;
-        this.stompClient.connect({}, (): any => {
-            console.log('Successfully connected to WebSocket');
-        });
+        this.stompClient.connect();
     }
 
     // Subscribe to a specific topic and provide a callback function to handle incoming messages

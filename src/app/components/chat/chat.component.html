@@ -27,10 +27,10 @@
                             >
                         </button>
                         <button
-                            (click)="onUserLogout()"
-                            class="btn btn-sm btn-danger ms-2"
+                            (click)="backHome()"
+                            class="btn btn-sm btn-primary ms-2"
                         >
-                            Logout
+                            <span class="pi pi-home"> Home</span>
                         </button>
                     </div>
                 </div>
@@ -41,10 +41,18 @@
                     <!-- Display a list of users -->
                     <div
                         *ngFor="let u of users"
-                        (click)="onUserSelected(u.id, u.name)"
-                        class="p-2 mt-2 cursor-pointer bg-secondary-subtle rounded"
+                        (click)="Navigate(u.id)"
+                        class="p-2 mt-2 d-flex align-items-center cursor-pointer rounded bg-secondary-subtle"
                     >
-                        <h5>{{ u.name }}</h5>
+                        <img
+                            class="bd-placeholder-img rounded-circle me-2"
+                            width="40"
+                            height="40"
+                            src="{{ u.avatar }}"
+                            alt="{{ u.id }} avatar"
+                        />
+
+                        <h6>{{ u.name }}</h6>
                     </div>
                 </div>
 
@@ -54,14 +62,18 @@
                 </h5>
                 <div *ngIf="!showUserState" class="scrollarea">
                     <div
-                        *ngFor="let c of userConversations; let i = index"
-                        (click)="onConversationSelected(i)"
+                        *ngFor="let c of userConversations"
+                        (click)="onConversationSelected(c.otherUserId)"
                         class="p-2 mt-2 d-flex align-items-center cursor-pointer rounded bg-secondary-subtle"
                     >
                         <div>
-                            <span class="circular-letter me-2">{{
-                                c.otherUserName.charAt(0)
-                            }}</span>
+                            <img
+                                class="bd-placeholder-img rounded-circle me-2"
+                                width="40"
+                                height="40"
+                                src="{{ c.userAvatar }}"
+                                alt="{{ c.otherUserId }} avatar"
+                            />
                         </div>
                         <div class="w-100">
                             <h6 class="m-0">{{ c.otherUserName }}</h6>
@@ -114,7 +126,14 @@
                             <i class="bi bi-list fs-4"></i>
                         </button>
                         <h4 class="m-0">
-                            {{ selectedConversationReceiverName }}
+                            <img
+                                class="bd-placeholder-img rounded-circle me-2"
+                                width="40"
+                                height="40"
+                                src="{{ this.receiverUser.avatar }}"
+                                alt="receiver avatar"
+                            />
+                            {{ this.receiverUser.name }}
                         </h4>
                     </div>
                     <button
@@ -178,9 +197,34 @@
                                 placeholder="Type a message"
                                 [(ngModel)]="message"
                             />
+                            <button
+                                type="button"
+                                (click)="toggleEmojiPicker()"
+                                class="btn btn-light ms-2"
+                            >
+                                <i class="bi bi-emoji-smile"></i>
+                            </button>
                             <button type="submit" class="btn bg-primary-1 ms-2">
                                 <i class="bi bi-send text-white"></i>
                             </button>
+                        </div>
+
+                        <!-- Emoji Picker -->
+                        <div
+                            *ngIf="isEmojiPickerVisible"
+                            class="modal-backdrop"
+                        >
+                            <div class="emoji-popup">
+                                <button
+                                    (click)="closeEmojiPicker()"
+                                    style="margin-left: 300px"
+                                >
+                                    Close
+                                </button>
+                                <emoji-mart
+                                    (emojiSelect)="addEmoji($event)"
+                                ></emoji-mart>
+                            </div>
                         </div>
                     </form>
                 </div>

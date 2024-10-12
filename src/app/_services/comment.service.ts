@@ -6,18 +6,13 @@ import { DataResponse } from '../../types';
 @Injectable({
     providedIn: 'root',
 })
-export class PostService {
+export class CommentService {
     constructor(private apiService: ApiService) {}
-
-    getPosts = (url: string): Observable<DataResponse> => {
+    getComments = (url: string): Observable<DataResponse> => {
         return this.apiService.get(url, { responseType: 'json' });
     };
 
-    addPost = (url: string, body: any): Observable<any> => {
+    addComment = (url: string, body: any): Observable<any> => {
         return this.apiService.post(url, body, {});
-    };
-
-    updatePost = (url: string, body: any): Observable<any> => {
-        return this.apiService.put(url, body, {});
     };
 }

@@ -1,0 +1,28 @@
+<h1 mat-dialog-title>Create Post</h1>
+<div mat-dialog-content>
+    <form enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="inputTitle">Title</label>
+            <input
+                type="text"
+                class="form-control"
+                id="inputTitle"
+                [(ngModel)]="selectedPost.title"
+                name="title"
+            />
+        </div>
+        <div class="form-group">
+            <label for="importMedia">Input media</label>
+            <input
+                type="file"
+                class="form-control-file"
+                id="importMedia"
+                (change)="onFileSelected($event)"
+            />
+        </div>
+        <button (click)="onSubmit()" class="btn btn-primary">Create</button>
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onClose()">Close</button>
+</div>

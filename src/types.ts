@@ -59,7 +59,8 @@ export interface User {
     gender: string;
     username: string;
     userStatus: string;
-    avatar: string | null;
+    avatar: string;
+    following: boolean;
 }
 
 export interface WebSocketResponse {
@@ -89,11 +90,27 @@ export interface ConversationResponse {
     otherUserName: string;
     lastMessage: string;
     lastMessageTimestamp: string;
+    userAvatar: string;
 }
 
 export interface Post {
-    id?: number;
+    id: number;
     userId: number;
     image: string;
     title: string;
+    userHasLike: boolean;
+}
+
+export interface CommentResponse {
+    id?: number;
+    postId: number;
+    authorName: string;
+    authorAvatarUrl: string;
+    content: string;
+}
+
+export interface CommentRequest {
+    userId: number;
+    postId: number;
+    content: string;
 }

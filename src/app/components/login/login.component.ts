@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../_services/auth.service';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
+    private apiUrl = 'http://localhost:8080';
+
     form: any = {
         username: null,
         password: null,
@@ -16,9 +19,11 @@ export class LoginComponent implements OnInit {
     isLoginFailed = false;
     errorMessage = '';
 
-    constructor(private authService: AuthService, private router: Router) {}
-
-    ngOnInit(): void {}
+    constructor(
+        private authService: AuthService,
+        private router: Router,
+        private http: HttpClient
+    ) {}
 
     onSubmit(): void {
         const { username, password } = this.form;
@@ -39,5 +44,26 @@ export class LoginComponent implements OnInit {
 
     redirect() {
         this.router.navigate(['home']);
+    }
+
+    loginWithOAuth2() {
+        window.location.href = `${this.apiUrl}/oauth2/authorization/google`;
+    }
+
+    // Cach nay khong co bao mat
+    handleRedirect() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+        const userId = urlParams.get('userId');
+
+        if (token && userId) {
+            sessionStorage.setItem('token', token);
+            sessionStorage.setItem('userId', userId);
+            this.router.navigate(['home']);
+        }
+    }
+
+    ngOnInit() {
+        this.handleRedirect();
     }
 }
