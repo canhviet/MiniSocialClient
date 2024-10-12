@@ -78,3 +78,9 @@
     width: 100%;
     overflow-y: scroll;
 }
+
+.p-2.mt-2.d-flex.align-items-center.cursor-pointer.rounded.bg-secondary-subtle:hover {
+    background-color: gray;
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}

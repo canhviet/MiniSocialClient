@@ -60,6 +60,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     // Boolean flag to indicate whether showing users or conversation on left column
     showUserState: boolean = false;
+
     // Input field for send message
     message: string = '';
 
@@ -74,18 +75,18 @@ export class ChatComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
-        // Subscribe to userId websocket to get updated conversation when gets new messages
-        this.subscribeToCurrentUserConversation();
-
         this.userService.getCurrentUser().subscribe({
             next: (res: DataResponse) => {
                 this.currentUser = res.data;
+
+                this.stomp.stompClient.connect();
+
+                // Subscribe to userId websocket to get updated conversation when gets new messages
+                this.subscribeToCurrentUserConversation();
             },
         });
 
         this.route.params.subscribe((params) => {
-            this.subscribeToCurrentUserConversation();
-
             this.receiverUser.id = +params['receiverId'];
 
             this.userService
@@ -93,6 +94,7 @@ export class ChatComponent implements OnInit, OnDestroy {
                 .subscribe({
                     next: (res: DataResponse) => {
                         this.receiverUser = res.data;
+
                         this.userService
                             .getConversationIdByUser1IdAndUser2Id(
                                 'http://localhost:8080/user/conversation/id',
@@ -130,6 +132,18 @@ export class ChatComponent implements OnInit, OnDestroy {
     // When click the new/add button Then get all users and set users list
     onShowHideUserConversation() {
         this.showUserState = !this.showUserState;
+        if (this.showUserState) {
+            this.userService
+                .getAllUsersExceptCurrentUser(
+                    'http://localhost:8080/user/except/' +
+                        sessionStorage.getItem('userId')
+                )
+                .subscribe((res: DataResponse) => {
+                    this.users = res.data;
+                });
+
+            this.setConversation();
+        }
     }
 
     // Close a chat from dropdown menu

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../_services/user.service';
 import { DataResponse, Post, User } from '../../../types';
 import { PostService } from '../../_services/post.service';
+import { StompService } from '../../_services/stomp.service';
 
 @Component({
     selector: 'app-profile',
@@ -35,7 +36,8 @@ export class ProfileComponent {
         private route: ActivatedRoute,
         private router: Router,
         private userService: UserService,
-        private postService: PostService
+        private postService: PostService,
+        private stomp: StompService
     ) {
         this.route.params.subscribe((params) => {
             this.selectedUserId = +params['userId'];
@@ -51,6 +53,7 @@ export class ProfileComponent {
             .subscribe({
                 next: (res: DataResponse) => {
                     this.selectedUser = res.data;
+                    this.stomp.stompClient.connect();
                 },
             });
         this.postService
