@@ -63,7 +63,7 @@
                 <div *ngIf="!showUserState" class="scrollarea">
                     <div
                         *ngFor="let c of userConversations"
-                        (click)="onConversationSelected(c.otherUserId)"
+                        (click)="Navigate(c.otherUserId)"
                         class="p-2 mt-2 d-flex align-items-center cursor-pointer rounded bg-secondary-subtle"
                     >
                         <div>
@@ -119,12 +119,6 @@
                     <div
                         class="d-flex align-items-center justify-content-center"
                     >
-                        <button
-                            (click)="onCloseChat()"
-                            class="btn py-0 me-1 d-sm-none"
-                        >
-                            <i class="bi bi-list fs-4"></i>
-                        </button>
                         <h4 class="m-0">
                             <img
                                 class="bd-placeholder-img rounded-circle me-2"

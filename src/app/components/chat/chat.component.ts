@@ -78,11 +78,11 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.userService.getCurrentUser().subscribe({
             next: (res: DataResponse) => {
                 this.currentUser = res.data;
-
-                // Subscribe to userId websocket to get updated conversation when gets new messages
-                this.subscribeToCurrentUserConversation();
             },
         });
+
+        // Subscribe to userId websocket to get updated conversation when gets new messages
+        this.subscribeToCurrentUserConversation();
 
         this.route.params.subscribe((params) => {
             if (params['receiverId']) {
@@ -95,7 +95,6 @@ export class ChatComponent implements OnInit, OnDestroy {
                     .subscribe({
                         next: (res: DataResponse) => {
                             this.receiverUser = res.data;
-
                             this.userService
                                 .getConversationIdByUser1IdAndUser2Id(
                                     'http://localhost:8080/user/conversation/id',
@@ -105,9 +104,17 @@ export class ChatComponent implements OnInit, OnDestroy {
                                 .subscribe((res: DataResponse) => {
                                     this.selectedConversationId = res.data;
 
+                                    console.log(this.receiverUser.id);
+
+                                    console.log(this.currentUser.id);
+
+                                    console.log(res);
+
                                     this.showUserState = false;
 
                                     this.showConversationsOfUser();
+
+                                    this.setConversation();
                                 });
                         },
                     });
@@ -132,20 +139,11 @@ export class ChatComponent implements OnInit, OnDestroy {
     showConversationsOfUser() {
         this.userService
             .getAllUsersExceptCurrentUser(
-                'http://localhost:8080/user/except/' +
-                    sessionStorage.getItem('userId')
+                'http://localhost:8080/user/except/' + this.currentUser.id
             )
             .subscribe((res: DataResponse) => {
                 this.users = res.data;
             });
-
-        this.setConversation();
-    }
-
-    // Close a chat from dropdown menu
-    onCloseChat() {
-        this.stompConvSub?.unsubscribe();
-        this.selectedConversationId = -1;
     }
 
     subscribeToCurrentUserConversation() {
@@ -157,31 +155,12 @@ export class ChatComponent implements OnInit, OnDestroy {
                     let res: WebSocketResponse = payload;
                     if (res.type == 'ALL') {
                         this.userConversations = res.data;
-                        const found = this.userConversations.find(
-                            (item) =>
-                                item.conversationId ===
-                                this.selectedConversationId
-                        );
-                        if (found === undefined) {
-                            this.onCloseChat();
-                        }
                     }
                 }
             );
             // Notify that I'm subscribed to get initial data
             this.stomp.send('user', this.currentUser.id);
         }, 1000);
-    }
-
-    // When new or exiting user selected Then set the variables and get the two users
-    // conversationId from the database
-    onUserSelected(receiverId: number) {
-        this.Navigate(receiverId);
-    }
-
-    // When user select a conversation from the list
-    onConversationSelected(receiverId: number) {
-        this.Navigate(receiverId);
     }
 
     // Set a conversation of selected conversationId
