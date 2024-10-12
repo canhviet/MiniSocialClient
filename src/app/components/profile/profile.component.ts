@@ -36,26 +36,24 @@ export class ProfileComponent {
         private route: ActivatedRoute,
         private router: Router,
         private userService: UserService,
-        private postService: PostService,
-        private stomp: StompService
-    ) {
+        private postService: PostService
+    ) {}
+
+    ngOnInit() {
         this.route.params.subscribe((params) => {
             this.selectedUserId = +params['userId'];
             if (this.selectedUserId == this.myUserId) {
                 this.myProfile = true;
             }
-        });
-    }
 
-    ngOnInit() {
-        this.userService
-            .getById('http://localhost:8080/user/' + this.selectedUserId)
-            .subscribe({
-                next: (res: DataResponse) => {
-                    this.selectedUser = res.data;
-                    this.stomp.stompClient.connect();
-                },
-            });
+            this.userService
+                .getById('http://localhost:8080/user/' + this.selectedUserId)
+                .subscribe({
+                    next: (res: DataResponse) => {
+                        this.selectedUser = res.data;
+                    },
+                });
+        });
         this.postService
             .getPosts('http://localhost:8080/post/list/' + this.selectedUserId)
             .subscribe({

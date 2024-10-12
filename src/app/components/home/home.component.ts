@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { DataResponse, Post, User } from '../../../types';
 import { PostService } from '../../_services/post.service';
+import { StompService } from '../../_services/stomp.service';
 
 @Component({
     selector: 'app-home',
@@ -8,7 +9,10 @@ import { PostService } from '../../_services/post.service';
     styleUrl: './home.component.css',
 })
 export class HomeComponent {
-    constructor(private postService: PostService) {}
+    constructor(
+        private postService: PostService,
+        private stomp: StompService
+    ) {}
 
     posts: Post[] = [];
 
@@ -25,5 +29,9 @@ export class HomeComponent {
 
     ngOnInit() {
         this.fetchPosts();
+
+        this.stomp.stompClient.connect({}, () => {
+            console.log('connect to websocket');
+        });
     }
 }

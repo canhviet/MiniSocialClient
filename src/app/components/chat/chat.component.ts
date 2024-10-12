@@ -79,47 +79,39 @@ export class ChatComponent implements OnInit, OnDestroy {
             next: (res: DataResponse) => {
                 this.currentUser = res.data;
 
-                this.stomp.stompClient.connect();
-
                 // Subscribe to userId websocket to get updated conversation when gets new messages
                 this.subscribeToCurrentUserConversation();
             },
         });
 
         this.route.params.subscribe((params) => {
-            this.receiverUser.id = +params['receiverId'];
+            if (params['receiverId']) {
+                this.receiverUser.id = +params['receiverId'];
 
-            this.userService
-                .getById('http://localhost:8080/user/' + this.receiverUser.id)
-                .subscribe({
-                    next: (res: DataResponse) => {
-                        this.receiverUser = res.data;
+                this.userService
+                    .getById(
+                        'http://localhost:8080/user/' + this.receiverUser.id
+                    )
+                    .subscribe({
+                        next: (res: DataResponse) => {
+                            this.receiverUser = res.data;
 
-                        this.userService
-                            .getConversationIdByUser1IdAndUser2Id(
-                                'http://localhost:8080/user/conversation/id',
-                                this.receiverUser.id,
-                                this.currentUser.id
-                            )
-                            .subscribe((res: DataResponse) => {
-                                this.selectedConversationId = res.data;
+                            this.userService
+                                .getConversationIdByUser1IdAndUser2Id(
+                                    'http://localhost:8080/user/conversation/id',
+                                    this.receiverUser.id,
+                                    this.currentUser.id
+                                )
+                                .subscribe((res: DataResponse) => {
+                                    this.selectedConversationId = res.data;
 
-                                this.showUserState = false;
+                                    this.showUserState = false;
 
-                                // Get conversations of user
-                                this.userService
-                                    .getAllUsersExceptCurrentUser(
-                                        'http://localhost:8080/user/except/' +
-                                            sessionStorage.getItem('userId')
-                                    )
-                                    .subscribe((res: DataResponse) => {
-                                        this.users = res.data;
-                                    });
-
-                                this.setConversation();
-                            });
-                    },
-                });
+                                    this.showConversationsOfUser();
+                                });
+                        },
+                    });
+            }
         });
     }
 
@@ -133,17 +125,21 @@ export class ChatComponent implements OnInit, OnDestroy {
     onShowHideUserConversation() {
         this.showUserState = !this.showUserState;
         if (this.showUserState) {
-            this.userService
-                .getAllUsersExceptCurrentUser(
-                    'http://localhost:8080/user/except/' +
-                        sessionStorage.getItem('userId')
-                )
-                .subscribe((res: DataResponse) => {
-                    this.users = res.data;
-                });
-
-            this.setConversation();
+            this.showConversationsOfUser();
         }
+    }
+
+    showConversationsOfUser() {
+        this.userService
+            .getAllUsersExceptCurrentUser(
+                'http://localhost:8080/user/except/' +
+                    sessionStorage.getItem('userId')
+            )
+            .subscribe((res: DataResponse) => {
+                this.users = res.data;
+            });
+
+        this.setConversation();
     }
 
     // Close a chat from dropdown menu
