@@ -46,4 +46,8 @@ export class UserService {
             { responseType: 'json' }
         );
     };
+
+    addUser = (url: string, body: any): Observable<any> => {
+        return this.apiService.post(url, body, {});
+    };
 }

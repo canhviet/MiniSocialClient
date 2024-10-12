@@ -60,6 +60,11 @@
                 }
             </div>
         </form>
+
+        <button class="btn btn-success btn-block" (click)="loginWithOAuth2()">
+            Login with Google
+        </button>
+
         } @else {
         {{ this.redirect() }}
         }

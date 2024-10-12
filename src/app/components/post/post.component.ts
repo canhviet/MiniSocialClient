@@ -6,8 +6,16 @@ import {
     Input,
     Output,
 } from '@angular/core';
-import { DataResponse, Post, User } from '../../../types';
+import {
+    CommentRequest,
+    CommentResponse,
+    DataResponse,
+    Post,
+    User,
+} from '../../../types';
 import { UserService } from '../../_services/user.service';
+import { CommentService } from '../../_services/comment.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-post',
@@ -15,7 +23,11 @@ import { UserService } from '../../_services/user.service';
     styleUrl: './post.component.css',
 })
 export class PostComponent {
-    constructor(private userService: UserService) {}
+    constructor(
+        private userService: UserService,
+        private commentService: CommentService,
+        private router: Router
+    ) {}
 
     postUser: User = {
         id: 0,
@@ -26,7 +38,16 @@ export class PostComponent {
         gender: '',
         username: '',
         userStatus: '',
-        avatar: null,
+        avatar: '',
+        following: false,
+    };
+
+    commnets: CommentResponse[] = [];
+
+    @Input() comment: CommentRequest = {
+        userId: 0,
+        postId: 0,
+        content: '',
     };
 
     getPostUser(userId: number) {
@@ -35,7 +56,6 @@ export class PostComponent {
             .subscribe({
                 next: (res: DataResponse) => {
                     this.postUser = res.data;
-                    console.log(this.postUser);
                 },
                 error: (error) => {
                     console.log(error);
@@ -43,11 +63,72 @@ export class PostComponent {
             });
     }
 
+    getPostComments(postId: number) {
+        this.commentService
+            .getComments('http://localhost:8080/comment/list/' + postId)
+            .subscribe({
+                next: (res: DataResponse) => {
+                    this.commnets = res.data;
+                },
+            });
+    }
+
     @Input() post!: Post;
-    @Output() postEmitted = new EventEmitter<Post>();
 
     ngOnInit() {
-        this.postEmitted.emit(this.post);
         this.getPostUser(this.post.userId);
+    }
+
+    visible: boolean = false;
+
+    showDialog() {
+        this.visible = true;
+        this.getPostComments(this.post.id);
+    }
+
+    addComment() {
+        let data = {
+            postId: this.post.id,
+            content: this.comment.content,
+            userId: Number(sessionStorage.getItem('userId')),
+        };
+        this.commentService
+            .addComment('http://localhost:8080/comment/', data)
+            .subscribe({
+                next: (res) => {
+                    this.showDialog();
+                    this.comment.content = '';
+                },
+            });
+    }
+
+    redirectProfile(userId: number) {
+        this.router.navigate(['profile', userId]);
+    }
+
+    likePost(postId: number) {
+        let data = {
+            postId: postId,
+            userId: Number(sessionStorage.getItem('userId')),
+        };
+
+        this.commentService
+            .addComment('http://localhost:8080/post/like', data)
+            .subscribe(() => {
+                this.post.userHasLike = true;
+            });
+    }
+
+    unLikePost(postId: number) {
+        let data = {
+            postId: postId,
+            userId: Number(sessionStorage.getItem('userId')),
+        };
+
+        this.commentService
+            .addComment('http://localhost:8080/post/unlike', data)
+            .subscribe(() => {
+                this.post.userHasLike = false;
+            });
     }
 }
