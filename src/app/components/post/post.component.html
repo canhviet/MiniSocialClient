@@ -38,7 +38,7 @@
                             </div>
                             <div
                                 class="col-12"
-                                *ngIf="this.post.userHasLike == false"
+                                *ngIf="this.userHasLike == false"
                                 (click)="likePost(post.id)"
                             >
                                 <i
@@ -48,7 +48,7 @@
                             </div>
                             <div
                                 class="col-12"
-                                *ngIf="this.post.userHasLike == true"
+                                *ngIf="this.userHasLike == true"
                                 (click)="unLikePost(post.id)"
                             >
                                 <i

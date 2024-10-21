@@ -30,14 +30,6 @@ export class AuthService {
         return this.apiService.post(AUTH_API + 'refresh-token', {}, {});
     }
 
-    handleRedirect(): Observable<any> {
-        return this.apiService.post(
-            `http://localhost:8080/oauth2/handle-redirect`,
-            {},
-            httpOptions
-        );
-    }
-
     register(
         username: string,
         email: string,
@@ -56,5 +48,23 @@ export class AuthService {
 
     logout(): Observable<any> {
         return this.apiService.post(AUTH_API + 'remove-token', {}, httpOptions);
+    }
+
+    forgotPassword(data: String): Observable<any> {
+        return this.apiService.post(AUTH_API + 'forgot-password', data, {
+            responseType: 'text' as 'json',
+        });
+    }
+
+    resetPassword(data: String): Observable<any> {
+        return this.apiService.post(AUTH_API + 'reset-password', data, {
+            responseType: 'text' as 'json',
+        });
+    }
+
+    changePassword(data: any): Observable<any> {
+        return this.apiService.post(AUTH_API + 'change-password', data, {
+            responseType: 'text' as 'json',
+        });
     }
 }

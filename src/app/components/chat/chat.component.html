@@ -12,23 +12,33 @@
         >
             <div class="vh-100 d-flex flex-column">
                 <div class="py-2">
-                    <h4>Hello {{ this.currentUser.name }}</h4>
+                    <a
+                        class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none link-dark"
+                    >
+                        <i
+                            class="pi pi-instagram"
+                            style="font-size: 1.5rem"
+                        ></i>
+                        <span class="fs-4 fw-bold">Onstagram</span>
+                    </a>
                     <div class="d-flex">
                         <!-- Toggle user list, and conversations list -->
                         <button
                             (click)="onShowHideUserConversation()"
-                            class="btn btn-sm btn-success"
+                            class="btn btn-sm btn-outline-secondary"
                         >
-                            <span *ngIf="!showUserState"
-                                >Show Available Users</span
-                            >
-                            <span *ngIf="showUserState"
-                                >Show Conversations</span
-                            >
+                            <div *ngIf="!showUserState">
+                                <i class="pi pi-user"></i>
+                                <span>Show Available Users</span>
+                            </div>
+                            <div *ngIf="showUserState">
+                                <i class="pi pi-comments"></i>
+                                <span>Show Conversations</span>
+                            </div>
                         </button>
                         <button
                             (click)="backHome()"
-                            class="btn btn-sm btn-primary ms-2"
+                            class="btn btn-sm btn-outline-primary ms-2"
                         >
                             <span class="pi pi-home"> Home</span>
                         </button>

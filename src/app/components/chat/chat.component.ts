@@ -29,7 +29,6 @@ export class ChatComponent implements OnInit, OnDestroy {
         username: '',
         userStatus: '',
         avatar: '',
-        following: false,
     };
 
     receiverUser: User = {
@@ -42,7 +41,6 @@ export class ChatComponent implements OnInit, OnDestroy {
         username: '',
         userStatus: '',
         avatar: '',
-        following: false,
     };
 
     users: User[] = [];
@@ -75,6 +73,12 @@ export class ChatComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
+        if (!this.stomp.stompClient.connected) {
+            this.stomp.stompClient.connect({}, () => {
+                console.log('Connected to WebSocket');
+            });
+        }
+
         this.userService.getCurrentUser().subscribe({
             next: (res: DataResponse) => {
                 this.currentUser = res.data;
@@ -95,26 +99,21 @@ export class ChatComponent implements OnInit, OnDestroy {
                     .subscribe({
                         next: (res: DataResponse) => {
                             this.receiverUser = res.data;
+
                             this.userService
                                 .getConversationIdByUser1IdAndUser2Id(
                                     'http://localhost:8080/user/conversation/id',
                                     this.receiverUser.id,
-                                    this.currentUser.id
+                                    Number(sessionStorage.getItem('userId'))
                                 )
                                 .subscribe((res: DataResponse) => {
                                     this.selectedConversationId = res.data;
 
-                                    console.log(this.receiverUser.id);
-
-                                    console.log(this.currentUser.id);
-
-                                    console.log(res);
-
                                     this.showUserState = false;
 
-                                    this.showConversationsOfUser();
-
-                                    this.setConversation();
+                                    this.setConversation(
+                                        this.selectedConversationId
+                                    );
                                 });
                         },
                     });
@@ -132,18 +131,15 @@ export class ChatComponent implements OnInit, OnDestroy {
     onShowHideUserConversation() {
         this.showUserState = !this.showUserState;
         if (this.showUserState) {
-            this.showConversationsOfUser();
+            this.userService
+                .getAllUsersExceptCurrentUser(
+                    'http://localhost:8080/user/except/' + this.currentUser.id
+                )
+                .subscribe((res: DataResponse) => {
+                    this.users = res.data;
+                    console.log(res.data);
+                });
         }
-    }
-
-    showConversationsOfUser() {
-        this.userService
-            .getAllUsersExceptCurrentUser(
-                'http://localhost:8080/user/except/' + this.currentUser.id
-            )
-            .subscribe((res: DataResponse) => {
-                this.users = res.data;
-            });
     }
 
     subscribeToCurrentUserConversation() {
@@ -164,13 +160,13 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     // Set a conversation of selected conversationId
-    setConversation() {
+    setConversation(convId: number) {
         // unsubscribe any previous subscription
         this.stompConvSub?.unsubscribe();
         // then subscribe to selected conversation
         // when get new message then add the message to first of the array
         this.stompConvSub = this.stomp.subscribe(
-            'conv/' + this.selectedConversationId,
+            'conv/' + convId,
             (payload: any) => {
                 let res: WebSocketResponse = payload;
                 if (res.type == 'ALL') {

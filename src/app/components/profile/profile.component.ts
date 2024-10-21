@@ -4,6 +4,9 @@ import { UserService } from '../../_services/user.service';
 import { DataResponse, Post, User } from '../../../types';
 import { PostService } from '../../_services/post.service';
 import { StompService } from '../../_services/stomp.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DetailPostComponent } from '../detail-post/detail-post.component';
+import { EditProfileComponent } from '../edit-profile/edit-profile.component';
 
 @Component({
     selector: 'app-profile',
@@ -19,6 +22,8 @@ export class ProfileComponent {
 
     posts: Post[] = [];
 
+    isFollow: boolean = false;
+
     selectedUser: User = {
         id: 0,
         phone: '',
@@ -29,14 +34,22 @@ export class ProfileComponent {
         username: '',
         userStatus: '',
         avatar: '',
-        following: false,
+    };
+
+    selectedPost: Post = {
+        id: 0,
+        userId: 0,
+        image: '',
+        title: '',
     };
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private userService: UserService,
-        private postService: PostService
+        private postService: PostService,
+        public dialog: MatDialog,
+        private stomp: StompService
     ) {}
 
     ngOnInit() {
@@ -51,6 +64,23 @@ export class ProfileComponent {
                 .subscribe({
                     next: (res: DataResponse) => {
                         this.selectedUser = res.data;
+
+                        this.userService
+                            .getById(
+                                'http://localhost:8080/user/check/' +
+                                    this.myUserId +
+                                    '/' +
+                                    this.selectedUserId
+                            )
+                            .subscribe({
+                                next: (res: DataResponse) => {
+                                    if (res.data) {
+                                        this.isFollow = true;
+                                    } else {
+                                        this.isFollow = false;
+                                    }
+                                },
+                            });
                     },
                 });
         });
@@ -61,6 +91,12 @@ export class ProfileComponent {
                     this.posts = res.data;
                 },
             });
+
+        if (!this.stomp.stompClient.connected) {
+            this.stomp.stompClient.connect({}, () => {
+                console.log('Connected to WebSocket');
+            });
+        }
     }
 
     followUser() {
@@ -71,7 +107,7 @@ export class ProfileComponent {
         this.userService
             .addUser('http://localhost:8080/user/follow', data)
             .subscribe(() => {
-                this.selectedUser.following = true;
+                this.isFollow = true;
             });
     }
 
@@ -83,11 +119,27 @@ export class ProfileComponent {
         this.userService
             .addUser('http://localhost:8080/user/unfollow', data)
             .subscribe(() => {
-                this.selectedUser.following = false;
+                this.isFollow = false;
             });
     }
 
     redirectToChat(receiverId: number) {
         this.router.navigate(['chat', receiverId]);
+    }
+
+    viewDetailPost(index: number) {
+        this.selectedPost = this.posts[index];
+        const dialogRef = this.dialog.open(DetailPostComponent, {
+            width: '90%',
+            height: '80vh',
+            data: this.selectedPost,
+        });
+    }
+
+    editProfile() {
+        const dialogRef = this.dialog.open(EditProfileComponent, {
+            width: '90%',
+            data: this.selectedUser,
+        });
     }
 }

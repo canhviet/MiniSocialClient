@@ -29,6 +29,9 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DetailPostComponent } from './components/detail-post/detail-post.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 @NgModule({
     declarations: [
         AppComponent,
@@ -40,6 +43,9 @@ import { DetailPostComponent } from './components/detail-post/detail-post.compon
         ProfileComponent,
         NavComponent,
         DetailPostComponent,
+        EditProfileComponent,
+        ForgotPasswordComponent,
+        ResetPasswordComponent,
     ],
     bootstrap: [AppComponent],
     imports: [

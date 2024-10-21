@@ -30,8 +30,10 @@ export class HomeComponent {
     ngOnInit() {
         this.fetchPosts();
 
-        this.stomp.stompClient.connect({}, () => {
-            console.log('connect to websocket');
-        });
+        if (!this.stomp.stompClient.connected) {
+            this.stomp.stompClient.connect({}, () => {
+                console.log('Connected to WebSocket');
+            });
+        }
     }
 }

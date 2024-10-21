@@ -16,14 +16,16 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     ): Observable<HttpEvent<any>> {
         const token = sessionStorage.getItem('token');
 
-        if (this.isTokenExpired(token)) {
-            console.log('token is expired');
-        } else {
+        if (token) {
             req = req.clone({
                 withCredentials: true,
                 setHeaders: {
                     Authorization: `Bearer ${token}`,
                 },
+            });
+        } else {
+            req = req.clone({
+                withCredentials: true,
             });
         }
         return next.handle(req);

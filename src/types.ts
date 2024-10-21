@@ -60,7 +60,6 @@ export interface User {
     username: string;
     userStatus: string;
     avatar: string;
-    following: boolean;
 }
 
 export interface WebSocketResponse {
@@ -98,7 +97,6 @@ export interface Post {
     userId: number;
     image: string;
     title: string;
-    userHasLike: boolean;
 }
 
 export interface CommentResponse {
@@ -113,4 +111,10 @@ export interface CommentRequest {
     userId: number;
     postId: number;
     content: string;
+}
+
+export interface ResetPassword {
+    password: String;
+    confirmPassword: String;
+    secretKey: String;
 }

@@ -29,6 +29,8 @@ export class PostComponent {
         private router: Router
     ) {}
 
+    userHasLike: boolean = false;
+
     postUser: User = {
         id: 0,
         phone: '',
@@ -39,7 +41,6 @@ export class PostComponent {
         username: '',
         userStatus: '',
         avatar: '',
-        following: false,
     };
 
     commnets: CommentResponse[] = [];
@@ -77,6 +78,19 @@ export class PostComponent {
 
     ngOnInit() {
         this.getPostUser(this.post.userId);
+
+        this.userService
+            .getById(
+                'http://localhost:8080/post/check/' +
+                    sessionStorage.getItem('userId') +
+                    '/' +
+                    this.post.id
+            )
+            .subscribe({
+                next: (res: DataResponse) => {
+                    this.userHasLike = res.data;
+                },
+            });
     }
 
     visible: boolean = false;
@@ -115,7 +129,7 @@ export class PostComponent {
         this.commentService
             .addComment('http://localhost:8080/post/like', data)
             .subscribe(() => {
-                this.post.userHasLike = true;
+                this.userHasLike = true;
             });
     }
 
@@ -128,7 +142,7 @@ export class PostComponent {
         this.commentService
             .addComment('http://localhost:8080/post/unlike', data)
             .subscribe(() => {
-                this.post.userHasLike = false;
+                this.userHasLike = false;
             });
     }
 }

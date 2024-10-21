@@ -19,11 +19,7 @@ export class LoginComponent {
     isLoginFailed = false;
     errorMessage = '';
 
-    constructor(
-        private authService: AuthService,
-        private router: Router,
-        private http: HttpClient
-    ) {}
+    constructor(private authService: AuthService, private router: Router) {}
 
     onSubmit(): void {
         const { username, password } = this.form;
@@ -50,7 +46,6 @@ export class LoginComponent {
         window.location.href = `${this.apiUrl}/oauth2/authorization/google`;
     }
 
-    // Cach nay khong co bao mat
     handleRedirect() {
         const urlParams = new URLSearchParams(window.location.search);
         const token = urlParams.get('token');
@@ -61,6 +56,10 @@ export class LoginComponent {
             sessionStorage.setItem('userId', userId);
             this.router.navigate(['home']);
         }
+    }
+
+    redirectForgotPassword() {
+        this.router.navigate(['forgot-password']);
     }
 
     ngOnInit() {

@@ -27,11 +27,6 @@ export class NavComponent {
     openAddPost(): void {
         const dialogRef = this.dialog.open(AddPostComponent, {
             width: '250px',
-            data: { message: 'Hello from dialog!' },
-        });
-
-        dialogRef.afterClosed().subscribe((result) => {
-            console.log('Dialog closed');
         });
     }
 }

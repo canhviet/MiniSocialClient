@@ -1,1 +1,51 @@
+<div mat-dialog-content>
+    <div class="card-header border-0 bg-body"></div>
+    <div class="card-body">
+        <figure class="figure">
+            <img
+                src="{{ post.image }}"
+                alt="{{ post.id }}"
+                class="figure-img img-fluid w-100 h-100 object-fit-cover"
+            />
+            <figcaption class="row">
+                <div class="col-12">
+                    <p>
+                        {{ post.title }}
+                    </p>
+                </div>
+            </figcaption>
+        </figure>
+    </div>
+</div>
 
+<div mat-dialog-actions *ngIf="myProfile">
+    <button
+        mat-button
+        (click)="closeDialog()"
+        type="button"
+        class="btn btn-outline-success"
+    >
+        <i class="pi pi-pen-to-square"></i>
+        <span>Update</span>
+    </button>
+
+    <button
+        mat-button
+        (click)="closeDialog()"
+        type="button"
+        class="btn btn-outline-warning"
+    >
+        <i class="pi pi-trash"></i>
+        <span>Delete</span>
+    </button>
+
+    <button
+        mat-button
+        (click)="closeDialog()"
+        type="button"
+        class="btn btn-outline-danger"
+    >
+        <i class="pi pi-times-circle"></i>
+        <span>Close</span>
+    </button>
+</div>

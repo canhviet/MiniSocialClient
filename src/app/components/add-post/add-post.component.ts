@@ -17,7 +17,6 @@ export class AddPostComponent {
         image: '',
         title: '',
         id: 0,
-        userHasLike: false,
     };
 
     constructor(
