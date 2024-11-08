@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Search</h1>
+<div mat-dialog-content>
+    <input type="text" [(ngModel)]="text" (ngModelChange)="search($event)" />
+    <div
+        *ngFor="let u of users"
+        (click)="Navigate(u.id)"
+        class="p-2 mt-2 d-flex align-items-center cursor-pointer rounded bg-secondary-subtle"
+    >
+        <img
+            class="bd-placeholder-img rounded-circle me-2"
+            width="40"
+            height="40"
+            src="{{ u.avatar }}"
+            alt="{{ u.id }} avatar"
+        />
+
+        <h6>{{ u.name }}</h6>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onClose()">Close</button>
+</div>

@@ -9,45 +9,30 @@
                 [(ngModel)]="user.name"
                 name="name"
             />
-            <label for="inputName">Name</label>
+            <div class="form-group">
+                <label for="importMedia">Change Avatar</label>
+                <input
+                    type="file"
+                    class="form-control-file"
+                    id="importMedia"
+                    (change)="onFileSelected($event)"
+                />
+            </div>
+            <label for="inputPhone">Phone</label>
             <input
                 type="text"
                 class="form-control"
-                id="inputName"
-                [(ngModel)]="user.name"
-                name="name"
+                id="inputPhone"
+                [(ngModel)]="user.phone"
+                name="phone"
             />
-            <label for="inputName">Name</label>
+            <label for="inputDate">Day of Birth</label>
             <input
-                type="text"
+                type="date"
                 class="form-control"
-                id="inputName"
-                [(ngModel)]="user.name"
-                name="name"
-            />
-            <label for="inputName">Name</label>
-            <input
-                type="text"
-                class="form-control"
-                id="inputName"
-                [(ngModel)]="user.name"
-                name="name"
-            />
-            <label for="inputName">Name</label>
-            <input
-                type="text"
-                class="form-control"
-                id="inputName"
-                [(ngModel)]="user.name"
-                name="name"
-            />
-            <label for="inputName">Name</label>
-            <input
-                type="text"
-                class="form-control"
-                id="inputName"
-                [(ngModel)]="user.name"
-                name="name"
+                id="inputDate"
+                [(ngModel)]="user.dateOfBirth"
+                name="date"
             />
         </div>
         <button (click)="onSubmit()" class="btn btn-primary">Submit</button>

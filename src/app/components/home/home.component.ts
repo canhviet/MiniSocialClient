@@ -17,14 +17,19 @@ export class HomeComponent {
     posts: Post[] = [];
 
     fetchPosts() {
-        this.postService.getPosts('http://localhost:8080/post/list').subscribe({
-            next: (res: DataResponse) => {
-                this.posts = res.data;
-            },
-            error: (error) => {
-                console.log(error);
-            },
-        });
+        this.postService
+            .getPosts(
+                'http://localhost:8080/post/list?userId=' +
+                    sessionStorage.getItem('userId')
+            )
+            .subscribe({
+                next: (res: DataResponse) => {
+                    this.posts = res.data;
+                },
+                error: (error) => {
+                    console.log(error);
+                },
+            });
     }
 
     ngOnInit() {

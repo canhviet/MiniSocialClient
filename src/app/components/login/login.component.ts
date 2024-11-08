@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../_services/auth.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { RegisterComponent } from '../register/register.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-login',
@@ -19,7 +21,11 @@ export class LoginComponent {
     isLoginFailed = false;
     errorMessage = '';
 
-    constructor(private authService: AuthService, private router: Router) {}
+    constructor(
+        private authService: AuthService,
+        public dialog: MatDialog,
+        private router: Router
+    ) {}
 
     onSubmit(): void {
         const { username, password } = this.form;
@@ -64,5 +70,11 @@ export class LoginComponent {
 
     ngOnInit() {
         this.handleRedirect();
+    }
+
+    register() {
+        const dialogRef = this.dialog.open(RegisterComponent, {
+            width: '90%',
+        });
     }
 }

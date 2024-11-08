@@ -18,10 +18,17 @@ export class ForgotPasswordComponent {
 
     @Input() email: String = '';
 
+    disableButton: boolean = false;
+
+    notify: boolean = false;
+
     onSubmit() {
+        this.disableButton = true;
+
         this.authService.forgotPassword(this.email).subscribe({
             next: () => {
-                this.email = 'Please check your mail';
+                this.email = '';
+                this.notify = true;
             },
         });
     }

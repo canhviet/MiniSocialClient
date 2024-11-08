@@ -35,9 +35,6 @@ export class ResetPasswordComponent {
     onSubmit() {
         this.authService.changePassword(this.data).subscribe({
             next: () => {
-                this.data.password = '';
-                this.data.confirmPassword = '';
-
                 this.router.navigate(['']);
             },
         });

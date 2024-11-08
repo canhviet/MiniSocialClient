@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AddPostComponent } from '../add-post/add-post.component';
 import { MatDialog } from '@angular/material/dialog';
+import { SearchComponent } from '../search/search.component';
 
 @Component({
     selector: 'app-nav',
@@ -26,6 +27,12 @@ export class NavComponent {
 
     openAddPost(): void {
         const dialogRef = this.dialog.open(AddPostComponent, {
+            width: '250px',
+        });
+    }
+
+    Search() {
+        const dialogRef = this.dialog.open(SearchComponent, {
             width: '250px',
         });
     }

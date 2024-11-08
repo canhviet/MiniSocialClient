@@ -32,6 +32,8 @@ import { DetailPostComponent } from './components/detail-post/detail-post.compon
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { RegisterComponent } from './components/register/register.component';
+import { SearchComponent } from './components/search/search.component';
 @NgModule({
     declarations: [
         AppComponent,
@@ -46,6 +48,8 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
         EditProfileComponent,
         ForgotPasswordComponent,
         ResetPasswordComponent,
+        RegisterComponent,
+        SearchComponent,
     ],
     bootstrap: [AppComponent],
     imports: [

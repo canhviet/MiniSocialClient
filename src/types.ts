@@ -118,3 +118,10 @@ export interface ResetPassword {
     confirmPassword: String;
     secretKey: String;
 }
+
+export interface RegisterRequest {
+    password: string;
+    confirmPassword: string;
+    email: string;
+    username: string;
+}

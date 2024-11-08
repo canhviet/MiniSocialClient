@@ -1,0 +1,51 @@
+<div mat-dialog-content>
+    <form enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="inputUserName">username</label>
+            <input
+                type="text"
+                class="form-control"
+                id="inputUserName"
+                [(ngModel)]="user.username"
+                name="username"
+            />
+            <label for="inputEmail">Email</label>
+            <input
+                type="email"
+                class="form-control"
+                id="inputEmail"
+                [(ngModel)]="user.email"
+                name="email"
+            />
+            <label for="inputPassword">Password</label>
+            <input
+                type="password"
+                class="form-control"
+                id="inputPassword"
+                [(ngModel)]="user.password"
+                name="password"
+            />
+            <label for="inputConfirmPassword">Confirm Password</label>
+            <input
+                type="password"
+                class="form-control"
+                id="inputConfirmPassword"
+                [(ngModel)]="user.confirmPassword"
+                name="confirmPassword"
+            />
+        </div>
+        <button (click)="onSubmit()" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<div mat-dialog-actions>
+    <button
+        mat-button
+        (click)="closeDialog()"
+        type="button"
+        class="btn btn-outline-warning"
+    >
+        <i class="pi pi-times"></i>
+        <span>Close</span>
+    </button>
+</div>

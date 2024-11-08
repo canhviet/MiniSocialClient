@@ -50,4 +50,14 @@ export class UserService {
     addUser = (url: string, body: any): Observable<any> => {
         return this.apiService.post(url, body, {});
     };
+
+    updateUser = (url: string, body: any): Observable<any> => {
+        return this.apiService.put(url, body, {});
+    };
+
+    register = (url: string, body: any): Observable<any> => {
+        return this.apiService.post(url, body, {
+            responseType: 'text' as 'json',
+        });
+    };
 }
