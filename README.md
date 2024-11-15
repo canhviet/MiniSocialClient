@@ -1,27 +1,112 @@
-# Client
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.8.
+# Social Media Platform
 
-## Development server
+A social media platform inspired by Instagram, allowing users to share photos, follow others, and engage with content through likes and comments.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+---
 
-## Code scaffolding
+## Table of Contents
+1. [Features](#features)
+2. [Technologies Used](#technologies-used)
+3. [Installation](#installation)
+4. [Usage](#usage)
+5. [Contributing](#contributing)
+6. [License](#license)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+---
 
-## Build
+## Features
+- [x] User registration and authentication (with Spring Security).
+- [x] Upload and share photos.
+- [x] Follow/unfollow users.
+- [x] Like and comment on posts.
+- [x] Responsive user interface built with Angular.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+---
 
-## Running unit tests
+## Technologies Used
+- **Front-end:** Angular, TypeScript, SCSS
+- **Back-end:** Spring Boot, Spring Security, RESTful APIs
+- **Database:** MySQL
+- **Other Tools:** Postman, Git
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+---
 
-## Running end-to-end tests
+## Installation
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### Prerequisites
+1. Node.js & npm (for Angular).
+2. Java JDK 11+ (for Spring Boot).
+3. MySQL Server.
 
-## Further help
+### Steps
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/username/social-media-platform.git
+   cd social-media-platform
+   ```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+2. **Back-end:**
+   - Navigate to the back-end directory:
+     ```bash
+     cd backend
+     ```
+   - Update `application.properties` with your database credentials.
+   - Run the application:
+     ```bash
+     ./mvnw spring-boot:run
+     ```
+
+3. **Front-end:**
+   - Navigate to the front-end directory:
+     ```bash
+     cd frontend
+     ```
+   - Install dependencies:
+     ```bash
+     npm install
+     ```
+   - Start the Angular application:
+     ```bash
+     ng serve
+     ```
+
+4. Open the application in your browser:
+   ```
+   http://localhost:4200
+   ```
+
+---
+
+## Usage
+1. Sign up for an account or log in using your credentials.
+2. Upload and share photos.
+3. Follow other users to see their posts on your feed.
+4. Interact with posts by liking or commenting.
+
+---
+
+## Contributing
+Contributions are welcome! Please follow these steps:
+1. Fork the repository.
+2. Create a new branch:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+3. Commit your changes and push:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+4. Open a pull request.
+
+---
+
+## License
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
+
+---
+
+## Contact
+For questions or suggestions, feel free to reach out at:
+- **Email:** your.email@example.com
+- **GitHub:** [YourUsername](https://github.com/YourUsername)
