@@ -34,6 +34,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { RegisterComponent } from './components/register/register.component';
 import { SearchComponent } from './components/search/search.component';
+import { NotifyComponent } from './components/notify/notify.component';
 @NgModule({
     declarations: [
         AppComponent,
@@ -50,6 +51,7 @@ import { SearchComponent } from './components/search/search.component';
         ResetPasswordComponent,
         RegisterComponent,
         SearchComponent,
+        NotifyComponent,
     ],
     bootstrap: [AppComponent],
     imports: [

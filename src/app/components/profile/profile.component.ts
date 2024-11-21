@@ -108,6 +108,7 @@ export class ProfileComponent {
             .addUser('http://localhost:8080/user/follow', data)
             .subscribe(() => {
                 this.isFollow = true;
+                this.stomp.send('follow', data);
             });
     }
 

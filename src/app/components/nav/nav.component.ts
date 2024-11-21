@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AddPostComponent } from '../add-post/add-post.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SearchComponent } from '../search/search.component';
-
+import { NotifyComponent } from '../notify/notify.component';
 @Component({
     selector: 'app-nav',
     templateUrl: './nav.component.html',
@@ -33,6 +33,12 @@ export class NavComponent {
 
     Search() {
         const dialogRef = this.dialog.open(SearchComponent, {
+            width: '250px',
+        });
+    }
+
+    notification() {
+        const dialogRef = this.dialog.open(NotifyComponent, {
             width: '250px',
         });
     }

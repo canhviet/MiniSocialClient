@@ -100,17 +100,21 @@ export interface Post {
 }
 
 export interface CommentResponse {
-    id?: number;
+    id: number;
     postId: number;
     authorName: string;
     authorAvatarUrl: string;
     content: string;
+    parentId: number;
+    children: CommentResponse[];
+    showReplies?: boolean;
 }
 
 export interface CommentRequest {
     userId: number;
     postId: number;
     content: string;
+    parentId: number;
 }
 
 export interface ResetPassword {
@@ -124,4 +128,14 @@ export interface RegisterRequest {
     confirmPassword: string;
     email: string;
     username: string;
+}
+
+export interface NotificationResponse {
+    timestamp: string;
+    content: string;
+    id: Number;
+    read: boolean;
+    follow: boolean;
+    message: boolean;
+    otherUser: Number;
 }

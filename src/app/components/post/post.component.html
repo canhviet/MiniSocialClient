@@ -79,9 +79,9 @@
         [style]="{ width: '50rem' }"
         [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
     >
-        <div *ngFor="let comment of commnets">
+        <div *ngFor="let comment of comments">
             <div class="mb-5">
-                <span class="d-flex d-inline-block">
+                <span class="d-flex">
                     <img
                         class="bd-placeholder-img rounded-circle me-2"
                         width="40"
@@ -89,17 +89,52 @@
                         src="{{ comment.authorAvatarUrl }}"
                         alt="{{ comment.id }}"
                     />
-
                     <div>
                         <h6>{{ comment.authorName }}</h6>
                         <h5>{{ comment.content }}</h5>
+                        <button
+                            class="btn btn-sm btn-primary mt-2"
+                            (click)="replyToComment(comment)"
+                        >
+                            Reply
+                        </button>
                     </div>
                 </span>
+
+                <div class="mb-5" *ngIf="comment.children.length > 0">
+                    <div *ngFor="let reply of comment.children">
+                        <span
+                            class="d-flex d-inline-block"
+                            style="margin-left: 20px"
+                        >
+                            <img
+                                class="bd-placeholder-img rounded-circle me-2"
+                                width="40"
+                                height="40"
+                                src="{{ reply.authorAvatarUrl }}"
+                                alt="{{ reply.id }}"
+                            />
+
+                            <div>
+                                <h6>{{ reply.authorName }}</h6>
+                                <h5 class="comment-line">
+                                    <span class="author-name">{{
+                                        comment.authorName
+                                    }}</span>
+                                    <span class="comment-content">{{
+                                        reply.content
+                                    }}</span>
+                                </h5>
+                            </div>
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="fixed-bottom">
             <form>
                 <div class="d-flex px-4 py-2 bg-body-secondary">
+                    <p>Reply To: {{ selectedComment.authorName }}</p>
                     <input
                         class="form-control"
                         type="text"
@@ -107,6 +142,13 @@
                         placeholder="Type a comment"
                         [(ngModel)]="comment.content"
                     />
+                    <button
+                        *ngIf="isReply == true"
+                        class="btn btn-sm btn-primary mt-2"
+                        (click)="cancelReplyToComment()"
+                    >
+                        Cancel
+                    </button>
                     <button
                         type="submit"
                         class="btn bg-primary-1 ms-2"

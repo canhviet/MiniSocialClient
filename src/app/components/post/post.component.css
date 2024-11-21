@@ -1,0 +1,40 @@
+.comment-line {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Khoảng cách giữa các phần tử */
+    font-size: 1rem;
+}
+
+.author-name {
+    font-weight: bold; /* Làm nổi bật tên tác giả */
+    color: #333;
+}
+
+.comment-content {
+    font-weight: normal; /* Định dạng khác cho nội dung */
+    color: #555;
+}
+
+span.d-flex {
+    align-items: flex-start; /* Căn chỉnh hình ảnh và nội dung theo chiều dọc */
+}
+
+h5 {
+    margin: 0; /* Xóa khoảng cách mặc định */
+}
+
+button {
+    font-size: 0.85rem; /* Nút nhỏ hơn */
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+button.btn-primary {
+    background-color: #007bff;
+    border: none;
+    color: white;
+}
+
+button.btn-primary:hover {
+    background-color: #0056b3;
+}

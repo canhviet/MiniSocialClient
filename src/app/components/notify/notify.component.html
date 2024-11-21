@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Notification</h1>
+<div mat-dialog-content>
+    <div *ngFor="let n of notifications">
+        <div *ngIf="n.follow == true" (click)="redirectProfile(n.otherUser)">
+            <button class="btn btn-sm btn-outline-secondary">
+                <span>{{ n.content }}</span>
+            </button>
+        </div>
+        <div *ngIf="n.message == true" (click)="redirectMessage(n.otherUser)">
+            <button class="btn btn-sm btn-outline-secondary">
+                <span>{{ n.content }}</span>
+            </button>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onClose()">Close</button>
+</div>

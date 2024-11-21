@@ -1,3 +1,7 @@
 #main {
     width: 80rem;
 }
+
+.alert-info {
+    text-align: center;
+}

@@ -1,11 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    EventEmitter,
-    Input,
-    Output,
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
     CommentRequest,
     CommentResponse,
@@ -31,6 +24,8 @@ export class PostComponent {
 
     userHasLike: boolean = false;
 
+    isReply: boolean = false;
+
     postUser: User = {
         id: 0,
         phone: '',
@@ -43,12 +38,23 @@ export class PostComponent {
         avatar: '',
     };
 
-    commnets: CommentResponse[] = [];
+    comments: CommentResponse[] = [];
 
     @Input() comment: CommentRequest = {
         userId: 0,
         postId: 0,
         content: '',
+        parentId: 0,
+    };
+
+    selectedComment: CommentResponse = {
+        id: 0,
+        postId: 0,
+        authorName: '',
+        authorAvatarUrl: '',
+        content: '',
+        parentId: 0,
+        children: [],
     };
 
     getPostUser(userId: number) {
@@ -69,7 +75,7 @@ export class PostComponent {
             .getComments('http://localhost:8080/comment/list/' + postId)
             .subscribe({
                 next: (res: DataResponse) => {
-                    this.commnets = res.data;
+                    this.comments = this.buildCommentTree(res.data);
                 },
             });
     }
@@ -105,11 +111,12 @@ export class PostComponent {
             postId: this.post.id,
             content: this.comment.content,
             userId: Number(sessionStorage.getItem('userId')),
+            parentId: this.selectedComment.id,
         };
         this.commentService
             .addComment('http://localhost:8080/comment/', data)
             .subscribe({
-                next: (res) => {
+                next: () => {
                     this.showDialog();
                     this.comment.content = '';
                 },
@@ -144,5 +151,46 @@ export class PostComponent {
             .subscribe(() => {
                 this.userHasLike = false;
             });
+    }
+
+    buildCommentTree(comments: CommentResponse[]): CommentResponse[] {
+        const map = new Map<number, CommentResponse>();
+        const roots: CommentResponse[] = [];
+
+        comments.forEach((comment) => {
+            comment.children = [];
+            map.set(comment.id, comment);
+        });
+
+        comments.forEach((comment) => {
+            if (comment.parentId == 0) {
+                roots.push(comment);
+            } else {
+                const parent = map.get(comment.parentId);
+                if (parent) {
+                    parent.children.push(comment);
+                }
+            }
+        });
+
+        return roots;
+    }
+
+    replyToComment(comment: CommentResponse) {
+        this.isReply = true;
+        this.selectedComment = comment;
+    }
+
+    cancelReplyToComment() {
+        this.isReply = false;
+        this.selectedComment = {
+            id: 0,
+            postId: 0,
+            authorName: '',
+            authorAvatarUrl: '',
+            content: '',
+            parentId: 0,
+            children: [],
+        };
     }
 }
