@@ -44,7 +44,7 @@ Node.js & npm (for Angular).
 
 ## Usage
 1. Sign up for an account or log in using your credentials.
-   ![image](https://github.com/user-attachments/assets/a8c357ab-932f-4f3a-87e7-c0d76b916152)
+   ![image](https://github.com/user-attachments/assets/19d4ac15-ee11-437a-8634-a91c629388c7)
 2. Upload and share photos.
    ![image](https://github.com/user-attachments/assets/d42183c4-349e-416c-a585-97037d89b539)
 3. Follow other users to see their posts on your feed.
