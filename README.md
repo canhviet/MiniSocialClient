@@ -29,6 +29,7 @@ Node.js & npm (for Angular).
    ```bash
    git clone https://github.com/canhviet/OnstagramClient
    cd OnstagramClient
+   npm install
    ```
 
 2. **Back-end:**
@@ -43,10 +44,15 @@ Node.js & npm (for Angular).
 
 ## Usage
 1. Sign up for an account or log in using your credentials.
+   ![image](https://github.com/user-attachments/assets/a8c357ab-932f-4f3a-87e7-c0d76b916152)
 2. Upload and share photos.
+   ![image](https://github.com/user-attachments/assets/d42183c4-349e-416c-a585-97037d89b539)
 3. Follow other users to see their posts on your feed.
+   ![image](https://github.com/user-attachments/assets/00154ad0-105d-47dc-94f5-d0d46ada436c)
 4. Interact with posts by liking or commenting.
-
+   ![image](https://github.com/user-attachments/assets/0d3ab795-b7e1-42b0-82ca-652932c3d5d8)
+5. Chat each other
+    ![image](https://github.com/user-attachments/assets/20e25e95-50d4-47f1-890f-1f8009a2f34e)
 ---
 
 ## License
