@@ -27,13 +27,13 @@ Node.js & npm (for Angular).
 ### Steps
 1. Clone the repository:
    ```bash
-   git clone https://github.com/canhviet/OnstagramClient
-   cd OnstagramClient
+   git clone https://github.com/canhviet/MiniSocialClient
+   cd MiniSocialClient
    npm install
    ```
 
 2. **Back-end:**
-   [Link](https://github.com/canhviet/OnstagramBackend)
+   [Link](https://github.com/canhviet/MiniSocialServer)
 
 3. Open the application in your browser:
    ```
